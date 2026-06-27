@@ -6,18 +6,710 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="Book a safe, reliable private ride with Alphalima Executive Chauffeur. Get instant fare estimates based on distance." />
   <style>
-    /* ... same CSS as above ... */
+    :root {
+      --primary: #0f766e;
+      --primary-dark: #0d4f49;
+      --accent: #f97316;
+      --bg: #f4f4f5;
+      --text: #111827;
+      --muted: #6b7280;
+      --card: #ffffff;
+      --gold: #d4af37;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    .page {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 1.5rem 1rem 3rem;
+    }
+
+    header {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    @media (min-width: 768px) {
+      header {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .brand-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+    }
+
+    .brand-title span {
+      color: var(--gold);
+    }
+
+    .brand-sub {
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: #e0f2f1;
+      color: var(--primary-dark);
+      padding: 0.35rem 0.7rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .badge span {
+      font-size: 1rem;
+    }
+
+    .hero {
+      background: var(--card);
+      border-radius: 0.75rem;
+      padding: 1.25rem 1rem;
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-main {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    @media (min-width: 768px) {
+      .hero-main {
+        flex-direction: row;
+        align-items: center;
+        gap: 1.5rem;
+      }
+    }
+
+    .hero-text {
+      flex: 1;
+    }
+
+    .hero-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 0.35rem;
+    }
+
+    .hero-tagline {
+      font-size: 0.95rem;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+    }
+
+    .pill {
+      padding: 0.25rem 0.6rem;
+      border-radius: 999px;
+      background: #e5e7eb;
+      color: #374151;
+    }
+
+    .pill.primary {
+      background: #ecfdf5;
+      color: #166534;
+    }
+
+    .hero-cta {
+      margin-top: 0.75rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .hero-image {
+      flex: 0 0 auto;
+      width: 100%;
+      max-width: 280px;
+      border-radius: 0.75rem;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .hero-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: cover;
+      aspect-ratio: 4/3;
+    }
+
+    @media (max-width: 767px) {
+      .hero-image {
+        max-width: 100%;
+      }
+    }
+
+    .gallery-thumbs {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .gallery-thumbs img {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 0.5rem;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+
+    .gallery-thumbs img:hover {
+      border-color: var(--primary);
+    }
+
+    .gallery-thumbs img.active {
+      border-color: var(--primary);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+      padding: 0.6rem 1rem;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform 0.08s ease, box-shadow 0.08s ease, background 0.12s ease;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #ffffff;
+      box-shadow: 0 8px 18px rgba(15, 118, 110, 0.35);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 10px 22px rgba(15, 118, 110, 0.45);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--primary-dark);
+      border: 1px solid #d1d5db;
+    }
+
+    .btn-outline:hover {
+      background: #e5e7eb;
+    }
+
+    .btn-accent {
+      background: var(--accent);
+      color: #ffffff;
+    }
+
+    .btn-accent:hover {
+      background: #ea580c;
+    }
+
+    .btn-gold {
+      background: var(--gold);
+      color: #0a0a0a;
+    }
+
+    .btn-gold:hover {
+      background: #c9a82e;
+    }
+
+    .hero-note {
+      margin-top: 0.75rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    main {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+
+    @media (min-width: 900px) {
+      main {
+        grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.9fr);
+      }
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: 0.75rem;
+      padding: 1.1rem 1rem;
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
+    }
+
+    .card-title {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      color: var(--primary-dark);
+    }
+
+    .card-subtitle {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .field label {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #374151;
+    }
+
+    .field input,
+    .field textarea,
+    .field select {
+      padding: 0.55rem 0.6rem;
+      border-radius: 0.5rem;
+      border: 1px solid #d1d5db;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.12s ease, box-shadow 0.12s ease;
+    }
+
+    .field input:focus,
+    .field textarea:focus,
+    .field select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 1px rgba(15, 118, 110, 0.25);
+    }
+
+    .field small {
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    textarea {
+      min-height: 70px;
+      resize: vertical;
+    }
+
+    /* ---- FARE DISPLAY ---- */
+    .fare-display {
+      background: linear-gradient(135deg, #0d4f49, #0f766e);
+      color: #fff;
+      padding: 1rem 1.25rem;
+      border-radius: 0.75rem;
+      text-align: center;
+      margin: 0.5rem 0;
+    }
+
+    .fare-display .fare-amount {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--gold);
+      display: block;
+    }
+
+    .fare-display .fare-label {
+      font-size: 0.8rem;
+      opacity: 0.8;
+    }
+
+    .fare-display .fare-detail {
+      font-size: 0.75rem;
+      opacity: 0.7;
+      margin-top: 0.25rem;
+    }
+
+    .fare-display .loading {
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 1; }
+    }
+
+    /* ---- HIDDEN RATE CONTROL (for you only) ---- */
+    .hidden-rate-control {
+      display: none; /* Completely hidden from riders */
+    }
+
+    .form-footer {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .form-note {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .services-list,
+    .locations-list,
+    .highlights-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      font-size: 0.9rem;
+    }
+
+    .services-list li::before,
+    .locations-list li::before {
+      content: "•";
+      margin-right: 0.35rem;
+      color: var(--primary);
+    }
+
+    .highlights-list li::before {
+      content: "✓";
+      margin-right: 0.35rem;
+      color: #16a34a;
+    }
+
+    .section {
+      margin-top: 1rem;
+    }
+
+    .section-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+      color: #111827;
+    }
+
+    .section-text {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 0.4rem;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    @media (min-width: 480px) {
+      .contact-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    .contact-item {
+      font-size: 0.85rem;
+      color: #374151;
+    }
+
+    .contact-label {
+      font-weight: 600;
+      color: var(--primary-dark);
+    }
+
+    .contact-value a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .contact-value a:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      margin-top: 2rem;
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    footer span {
+      color: var(--primary-dark);
+      font-weight: 600;
+    }
   </style>
 </head>
 <body>
-  <!-- ... same HTML as above ... -->
+  <div class="page">
+    <header>
+      <div class="brand">
+        <div class="brand-title">Alphalima <span>Executive</span> Chauffeur</div>
+        <div class="brand-sub">Professional private driver • Direct booking • Abuja & Lagos</div>
+        <div class="badge">
+          <span>🚗</span>
+          <span>Former Uber & Bolt driver • Verified & experienced</span>
+        </div>
+      </div>
+      <div>
+        <button class="btn btn-outline" onclick="scrollToSection('booking')">
+          Book a ride now
+        </button>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="hero-main">
+        <div class="hero-text">
+          <div class="hero-title">Safe, reliable rides — transparent kilometer-based pricing</div>
+          <div class="hero-tagline">
+            Enter your pickup and dropoff locations to get an instant fare estimate. No hidden fees, no surge pricing.
+          </div>
+          <div class="hero-meta">
+            <span class="pill primary">Airport runs</span>
+            <span class="pill">Corporate rides</span>
+            <span class="pill">School runs</span>
+            <span class="pill">Errand & city trips</span>
+          </div>
+          <div class="hero-cta">
+            <a href="https://wa.me/+2348155765723?text=Hi%20Alphalima%20Executive,%20I%20would%20like%20to%20book%20a%20ride."
+               class="btn btn-primary">
+              💬 Book instantly on WhatsApp
+            </a>
+            <button class="btn btn-outline" onclick="scrollToSection('booking')">
+              📋 Use booking form
+            </button>
+          </div>
+          <div class="hero-note">
+            After you submit the form, Alphalima Executive Chauffeur will confirm your trip via WhatsApp or phone call.
+          </div>
+        </div>
+        <div class="hero-image">
+          <img id="mainHeroImage" src="image/aphalima4.jpeg" alt="Alphalima Executive Chauffeur" />
+        </div>
+      </div>
+      <div class="gallery-thumbs">
+        <img src="image/aphalima0.jpeg" alt="Alphalima 0" onclick="changeHeroImage(this, 'image/aphalima0.jpeg')" />
+        <img src="image/aphalima.jpeg" alt="Alphalima 1" onclick="changeHeroImage(this, 'image/aphalima.jpeg')" />
+        <img src="image/aphalima1.jpeg" alt="Alphalima 2" onclick="changeHeroImage(this, 'image/aphalima1.jpeg')" />
+        <img src="image/aphalima2.jpeg" alt="Alphalima 3" onclick="changeHeroImage(this, 'image/aphalima2.jpeg')" />
+        <img src="image/aphalima4.jpeg" alt="Alphalima 4" class="active" onclick="changeHeroImage(this, 'image/aphalima4.jpeg')" />
+      </div>
+    </section>
+
+    <main>
+      <!-- Booking form with Fare Calculator -->
+      <section id="booking" class="card">
+        <div class="card-title">🚗 Ride Booking & Fare Calculator</div>
+        <div class="card-subtitle">
+          Enter your trip details. The system will calculate the distance and show you an estimated fare instantly.
+        </div>
+
+        <!-- RATE CONTROL - HIDDEN FROM RIDERS (only you see this) -->
+        <!-- To change the rate, edit the "value" attribute below -->
+        <div class="hidden-rate-control">
+          <label for="ratePerKm">Rate per km (₦):</label>
+          <input type="number" id="ratePerKm" value="350" min="100" max="1000" step="10" />
+        </div>
+
+        <form onsubmit="handleBooking(event)">
+          <div class="field">
+            <label for="pickup">📍 Pickup location</label>
+            <input id="pickup" name="pickup" type="text" required placeholder="e.g. Wuse II, Abuja" />
+          </div>
+
+          <div class="field">
+            <label for="dropoff">📍 Dropoff location</label>
+            <input id="dropoff" name="dropoff" type="text" required placeholder="e.g. Nnamdi Azikiwe International Airport" />
+          </div>
+
+          <!-- FARE DISPLAY -->
+          <div class="fare-display" id="fareDisplay">
+            <span class="fare-label">Estimated Fare</span>
+            <span class="fare-amount" id="fareAmount">—</span>
+            <span class="fare-detail" id="fareDetail">Enter pickup and dropoff to calculate</span>
+          </div>
+
+          <div class="field">
+            <label for="name">Full name</label>
+            <input id="name" name="name" type="text" required placeholder="e.g. John Doe" />
+          </div>
+
+          <div class="field">
+            <label for="phone">WhatsApp / phone number</label>
+            <input id="phone" name="phone" type="tel" required placeholder="e.g. +234 813 019 0920" />
+            <small>Used only to confirm your booking. No spam.</small>
+          </div>
+
+          <div class="field">
+            <label for="datetime">Preferred date & time</label>
+            <input id="datetime" name="datetime" type="datetime-local" required />
+            <small>Select your preferred pickup date and time</small>
+          </div>
+
+          <div class="field">
+            <label for="service">Type of service</label>
+            <select id="service" name="service" required>
+              <option value="">Select service</option>
+              <option>Airport pickup / dropoff</option>
+              <option>Corporate ride</option>
+              <option>Daily commute</option>
+              <option>School run</option>
+              <option>Errand / city trip</option>
+              <option>Interstate travel</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="notes">Extra details (optional)</label>
+            <textarea id="notes" name="notes" placeholder="e.g. Number of passengers, luggage, special requests"></textarea>
+          </div>
+
+          <div class="form-footer">
+            <button type="submit" class="btn btn-gold">
+              🚀 Submit booking request
+            </button>
+            <div class="form-note">
+              Your request will open in WhatsApp with the trip details and estimated fare.
+            </div>
+          </div>
+        </form>
+      </section>
+
+      <!-- Info / services / contact -->
+      <section class="card">
+        <div class="card-title">About Alphalima Executive Chauffeur</div>
+        <div class="card-subtitle">
+          Professional private driver with experience on Uber and Bolt, now offering direct, personalised transport services.
+        </div>
+
+        <div class="section">
+          <div class="section-title">Services</div>
+          <ul class="services-list">
+            <li>Airport pickup and dropoff (Abuja & Lagos)</li>
+            <li>Corporate and business rides</li>
+            <li>Daily commute and regular routes</li>
+            <li>School runs for children</li>
+            <li>Errand and city trips</li>
+            <li>Interstate travel (on agreement)</li>
+          </ul>
+        </div>
+
+        <div class="section">
+          <div class="section-title">Why ride with Alphalima?</div>
+          <ul class="highlights-list">
+            <li>Transparent pricing agreed before the trip</li>
+            <li>Well‑maintained vehicle and clean interior</li>
+            <li>Professional, respectful and punctual</li>
+            <li>Flexible payment options (cash, transfer)</li>
+            <li>Direct communication — no platform delays</li>
+          </ul>
+        </div>
+
+        <div class="section">
+          <div class="section-title">Areas covered</div>
+          <ul class="locations-list">
+            <li>Abuja city and surrounding areas</li>
+            <li>Lagos (selected routes, on agreement)</li>
+          </ul>
+        </div>
+
+        <div class="section">
+          <div class="section-title">Contact details</div>
+          <p class="section-text">
+            You can reach Alphalima Executive Chauffeur directly using any of the options below.
+          </p>
+          <div class="contact-grid">
+            <div class="contact-item">
+              <div class="contact-label">Phone / WhatsApp</div>
+              <div class="contact-value">
+                <a href="https://wa.me/2348155765723">+234 815 576 5723</a>
+              </div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-label">Call</div>
+              <div class="contact-value">
+                <a href="tel:+2348155765723">Tap to call Alphalima</a>
+              </div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-label">Email</div>
+              <div class="contact-value">
+                <a href="mailto:alphalimachauffeur@gmail.com">alphalimachauffeur@gmail.com</a>
+              </div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-label">Save this page</div>
+              <div class="contact-value">
+                Add to your home screen for quick access.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div>
+        Direct booking with <span>Alphalima Executive Chauffeur</span> • Safe, reliable rides in Abuja & Lagos
+      </div>
+    </footer>
+  </div>
 
   <script>
-    // ============================================================
-    // OPENROUTESERVICE (Free, no API key needed)
-    // Uses actual road networks for Nigeria
-    // ============================================================
+    // ----- GALLERY FUNCTION -----
+    function changeHeroImage(thumb, src) {
+      document.getElementById('mainHeroImage').src = src;
+      document.querySelectorAll('.gallery-thumbs img').forEach(img => img.classList.remove('active'));
+      thumb.classList.add('active');
+    }
 
+    function scrollToSection(id) {
+      const el = document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }
+
+    // ----- DISTANCE CALCULATION (FREE API) -----
     let currentDistance = null;
     let currentFare = null;
 
@@ -39,39 +731,35 @@
 
       fareAmount.textContent = '⏳ Calculating...';
       fareAmount.className = 'fare-amount loading';
-      fareDetail.textContent = 'Fetching road distance from OpenRouteService...';
+      fareDetail.textContent = 'Fetching distance from OpenStreetMap...';
 
       try {
-        // Get coordinates using OpenStreetMap
-        const pickupCoords = await getCoordinatesOSM(pickup);
-        const dropoffCoords = await getCoordinatesOSM(dropoff);
+        const pickupCoords = await getCoordinates(pickup);
+        const dropoffCoords = await getCoordinates(dropoff);
 
         if (!pickupCoords || !dropoffCoords) {
-          throw new Error('Could not find one or both locations in Nigeria');
+          throw new Error('Could not find one or both locations');
         }
 
-        // Get road distance using OpenRouteService
-        const roadDistance = await getRoadDistanceORS(pickupCoords, dropoffCoords);
+        const distance = calculateHaversineDistance(
+          pickupCoords.lat, pickupCoords.lon,
+          dropoffCoords.lat, dropoffCoords.lon
+        );
 
-        if (!roadDistance || roadDistance === 0) {
-          throw new Error('Could not calculate road distance');
-        }
-
-        // Get rate per km (hidden from riders)
+        // --- RATE IS HARDCODED & HIDDEN ---
+        // To change the rate, edit the "value" attribute in the hidden input above
         const ratePerKm = parseFloat(document.getElementById('ratePerKm').value) || 350;
 
-        // Calculate fare
-        const fare = roadDistance * ratePerKm;
-
-        currentDistance = roadDistance;
+        const fare = distance * ratePerKm;
+        currentDistance = distance;
         currentFare = fare;
 
         fareAmount.className = 'fare-amount';
         fareAmount.textContent = `₦${Math.round(fare).toLocaleString()}`;
 
-        let detailText = `${roadDistance.toFixed(1)} km (road distance) × ₦${ratePerKm}/km`;
-        if (roadDistance < 1) {
-          detailText = `Less than 1 km (${roadDistance.toFixed(1)} km) × ₦${ratePerKm}/km`;
+        let detailText = `${distance.toFixed(1)} km × ₦${ratePerKm}/km`;
+        if (distance < 1) {
+          detailText = `Less than 1 km (${distance.toFixed(1)} km) × ₦${ratePerKm}/km`;
         }
         fareDetail.textContent = detailText;
 
@@ -87,16 +775,15 @@
         console.error('Error calculating distance:', error);
         fareAmount.className = 'fare-amount';
         fareAmount.textContent = '⚠️ Error';
-        fareDetail.textContent = error.message || 'Please check location names or try again';
+        fareDetail.textContent = 'Please check location names or try again';
         fareDisplay.style.background = 'linear-gradient(135deg, #7c2d12, #991b1b)';
         currentDistance = null;
         currentFare = null;
       }
     }
 
-    // OpenStreetMap geocoding
-    async function getCoordinatesOSM(location) {
-      const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(location)}&limit=1&countrycodes=ng`;
+    async function getCoordinates(location) {
+      const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(location)}&limit=1`;
       const response = await fetch(url, {
         headers: { 'User-Agent': 'Alphalima Chauffeur Booking App' }
       });
@@ -109,22 +796,70 @@
       };
     }
 
-    // OpenRouteService - road distance (free, no API key)
-    async function getRoadDistanceORS(origin, destination) {
-      const url = `https://api.openrouteservice.org/v2/directions/driving-car?api_key=5b3ce3597851110001cf6248e68e993f69b54360906e80dcec21f1f9&start=${origin.lon},${origin.lat}&end=${destination.lon},${destination.lat}`;
-
-      const response = await fetch(url);
-      const data = await response.json();
-
-      if (!data.features || data.features.length === 0) {
-        throw new Error('OpenRouteService API error');
-      }
-
-      const distance = data.features[0].properties.segments[0].distance;
-      return distance / 1000; // Convert meters to km
+    function calculateHaversineDistance(lat1, lon1, lat2, lon2) {
+      const R = 6371;
+      const dLat = (lat2 - lat1) * Math.PI / 180;
+      const dLon = (lon2 - lon1) * Math.PI / 180;
+      const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      return R * c;
     }
 
-    // ... rest of JavaScript (event listeners, booking handler) same as before
+    // ----- AUTO-CALCULATE ON INPUT -----
+    document.addEventListener('DOMContentLoaded', function() {
+      const pickup = document.getElementById('pickup');
+      const dropoff = document.getElementById('dropoff');
+      let timeoutId;
+
+      function handleInput() {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(calculateDistance, 800);
+      }
+
+      pickup.addEventListener('input', handleInput);
+      dropoff.addEventListener('input', handleInput);
+    });
+
+    // ----- BOOKING FORM HANDLER -----
+    function handleBooking(event) {
+      event.preventDefault();
+
+      const name = document.getElementById("name").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      const pickup = document.getElementById("pickup").value.trim();
+      const dropoff = document.getElementById("dropoff").value.trim();
+      const datetime = document.getElementById("datetime").value.trim();
+      const service = document.getElementById("service").value;
+      const notes = document.getElementById("notes").value.trim();
+
+      const fareAmount = document.getElementById('fareAmount').textContent;
+      const fareDetail = document.getElementById('fareDetail').textContent;
+
+      const baseUrl = "https://wa.me/+2348155765723";
+
+      let message =
+        "🚗 *Alphalima Executive Chauffeur - Ride Booking Request*%0A%0A" +
+        "👤 *Name:* " + name + "%0A" +
+        "📱 *Phone:* " + phone + "%0A" +
+        "📍 *Pickup:* " + pickup + "%0A" +
+        "📍 *Dropoff:* " + dropoff + "%0A" +
+        "📅 *Date/Time:* " + datetime + "%0A" +
+        "🛠 *Service:* " + service + "%0A" +
+        "💰 *Estimated Fare:* " + fareAmount + "%0A" +
+        "📏 *Distance:* " + fareDetail + "%0A";
+
+      if (notes) {
+        message += "📝 *Extra details:* " + notes + "%0A";
+      }
+
+      message += "%0AThank you! Please confirm availability.";
+
+      const url = baseUrl + "?text=" + message;
+      window.location.href = url;
+    }
   </script>
 </body>
 </html>
