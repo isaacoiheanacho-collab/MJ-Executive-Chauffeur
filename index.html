@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Alphalima Executive Chauffeur – Fare Calculator</title>
+  <title>Private Ride Booking – Alphalima Executive Chauffeur</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Book a safe, reliable private ride with Alphalima Executive Chauffeur. Get instant fare estimates based on distance." />
+  <meta name="description" content="Book a safe, reliable private ride directly with Alphalima Executive Chauffeur. Airport runs, corporate rides, school runs, and more." />
   <style>
     :root {
       --primary: #0f766e;
@@ -14,7 +14,6 @@
       --text: #111827;
       --muted: #6b7280;
       --card: #ffffff;
-      --gold: #d4af37;
     }
 
     * {
@@ -63,10 +62,6 @@
       color: var(--primary-dark);
     }
 
-    .brand-title span {
-      color: var(--gold);
-    }
-
     .brand-sub {
       font-size: 0.95rem;
       color: var(--muted);
@@ -88,6 +83,7 @@
       font-size: 1rem;
     }
 
+    /* ----- HERO WITH IMAGE ----- */
     .hero {
       background: var(--card);
       border-radius: 0.75rem;
@@ -175,6 +171,7 @@
       }
     }
 
+    /* Gallery thumbs */
     .gallery-thumbs {
       display: flex;
       gap: 0.5rem;
@@ -244,15 +241,6 @@
 
     .btn-accent:hover {
       background: #ea580c;
-    }
-
-    .btn-gold {
-      background: var(--gold);
-      color: #0a0a0a;
-    }
-
-    .btn-gold:hover {
-      background: #c9a82e;
     }
 
     .hero-note {
@@ -337,48 +325,6 @@
     textarea {
       min-height: 70px;
       resize: vertical;
-    }
-
-    /* ---- FARE DISPLAY ---- */
-    .fare-display {
-      background: linear-gradient(135deg, #0d4f49, #0f766e);
-      color: #fff;
-      padding: 1rem 1.25rem;
-      border-radius: 0.75rem;
-      text-align: center;
-      margin: 0.5rem 0;
-    }
-
-    .fare-display .fare-amount {
-      font-size: 2rem;
-      font-weight: 800;
-      color: var(--gold);
-      display: block;
-    }
-
-    .fare-display .fare-label {
-      font-size: 0.8rem;
-      opacity: 0.8;
-    }
-
-    .fare-display .fare-detail {
-      font-size: 0.75rem;
-      opacity: 0.7;
-      margin-top: 0.25rem;
-    }
-
-    .fare-display .loading {
-      animation: pulse 1.5s ease-in-out infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 0.4; }
-      50% { opacity: 1; }
-    }
-
-    /* ---- HIDDEN RATE CONTROL ---- */
-    .hidden-rate-control {
-      display: none;
     }
 
     .form-footer {
@@ -482,7 +428,7 @@
   <div class="page">
     <header>
       <div class="brand">
-        <div class="brand-title">Alphalima <span>Executive</span> Chauffeur</div>
+        <div class="brand-title">Alphalima Executive Chauffeur</div>
         <div class="brand-sub">Professional private driver • Direct booking • Abuja & Lagos</div>
         <div class="badge">
           <span>🚗</span>
@@ -499,9 +445,9 @@
     <section class="hero">
       <div class="hero-main">
         <div class="hero-text">
-          <div class="hero-title">Safe, reliable rides — transparent kilometer-based pricing</div>
+          <div class="hero-title">Safe, reliable rides — booked directly with your driver</div>
           <div class="hero-tagline">
-            Enter your pickup and dropoff locations to get an instant fare estimate. No hidden fees, no surge pricing.
+            Avoid surge pricing and platform fees. Book your ride directly with Alphalima Executive Chauffeur for transparent, fair pricing and professional service.
           </div>
           <div class="hero-meta">
             <span class="pill primary">Airport runs</span>
@@ -522,10 +468,12 @@
             After you submit the form, Alphalima Executive Chauffeur will confirm your trip via WhatsApp or phone call.
           </div>
         </div>
+        <!-- Hero Image -->
         <div class="hero-image">
           <img id="mainHeroImage" src="image/aphalima4.jpeg" alt="Alphalima Executive Chauffeur" />
         </div>
       </div>
+      <!-- Gallery Thumbnails -->
       <div class="gallery-thumbs">
         <img src="image/aphalima0.jpeg" alt="Alphalima 0" onclick="changeHeroImage(this, 'image/aphalima0.jpeg')" />
         <img src="image/aphalima.jpeg" alt="Alphalima 1" onclick="changeHeroImage(this, 'image/aphalima.jpeg')" />
@@ -536,37 +484,14 @@
     </section>
 
     <main>
-      <!-- Booking form with Fare Calculator -->
+      <!-- Booking form -->
       <section id="booking" class="card">
-        <div class="card-title">🚗 Ride Booking & Fare Calculator</div>
+        <div class="card-title">Ride booking form</div>
         <div class="card-subtitle">
-          Enter your trip details. The system will calculate the distance and show you an estimated fare instantly.
-        </div>
-
-        <!-- RATE CONTROL - HIDDEN FROM RIDERS -->
-        <div class="hidden-rate-control">
-          <label for="ratePerKm">Rate per km (₦):</label>
-          <input type="number" id="ratePerKm" value="350" min="100" max="1000" step="10" />
+          Fill in your trip details and Alphalima Executive Chauffeur will contact you to confirm price and pickup time.
         </div>
 
         <form onsubmit="handleBooking(event)">
-          <div class="field">
-            <label for="pickup">📍 Pickup location</label>
-            <input id="pickup" name="pickup" type="text" required placeholder="e.g. Wuse II, Abuja" />
-          </div>
-
-          <div class="field">
-            <label for="dropoff">📍 Dropoff location</label>
-            <input id="dropoff" name="dropoff" type="text" required placeholder="e.g. Nnamdi Azikiwe International Airport" />
-          </div>
-
-          <!-- FARE DISPLAY -->
-          <div class="fare-display" id="fareDisplay">
-            <span class="fare-label">Estimated Fare</span>
-            <span class="fare-amount" id="fareAmount">—</span>
-            <span class="fare-detail" id="fareDetail">Enter pickup and dropoff to calculate</span>
-          </div>
-
           <div class="field">
             <label for="name">Full name</label>
             <input id="name" name="name" type="text" required placeholder="e.g. John Doe" />
@@ -576,6 +501,16 @@
             <label for="phone">WhatsApp / phone number</label>
             <input id="phone" name="phone" type="tel" required placeholder="e.g. +234 813 019 0920" />
             <small>Used only to confirm your booking. No spam.</small>
+          </div>
+
+          <div class="field">
+            <label for="pickup">Pickup location</label>
+            <input id="pickup" name="pickup" type="text" required placeholder="e.g. Wuse II, Abuja" />
+          </div>
+
+          <div class="field">
+            <label for="dropoff">Dropoff location</label>
+            <input id="dropoff" name="dropoff" type="text" required placeholder="e.g. Nnamdi Azikiwe International Airport" />
           </div>
 
           <div class="field">
@@ -603,11 +538,11 @@
           </div>
 
           <div class="form-footer">
-            <button type="submit" class="btn btn-gold">
+            <button type="submit" class="btn btn-accent">
               🚀 Submit booking request
             </button>
             <div class="form-note">
-              Your request will open in WhatsApp with the trip details and estimated fare.
+              Your request will open in WhatsApp as a pre‑filled message so Alphalima Executive Chauffeur can respond quickly.
             </div>
           </div>
         </form>
@@ -615,7 +550,7 @@
 
       <!-- Info / services / contact -->
       <section class="card">
-        <div class="card-title">About Alphalima Executive Chauffeur</div>
+        <div class="card-title">About Alphalima Executive Chauffeur & services offered</div>
         <div class="card-subtitle">
           Professional private driver with experience on Uber and Bolt, now offering direct, personalised transport services.
         </div>
@@ -654,7 +589,7 @@
         <div class="section">
           <div class="section-title">Contact details</div>
           <p class="section-text">
-            You can reach Alphalima Executive Chauffeur directly using any of the options below.
+            You can reach Alphalima Executive Chauffeur directly using any of the options below. Save this page or scan the QR code from his card.
           </p>
           <div class="contact-grid">
             <div class="contact-item">
@@ -666,11 +601,11 @@
             <div class="contact-item">
               <div class="contact-label">Call</div>
               <div class="contact-value">
-                <a href="tel:+2348155765723">Tap to call Alphalima</a>
+                <a href="tel:+2348155765723">Tap to call Alphalima Executive Chauffeur</a>
               </div>
             </div>
             <div class="contact-item">
-              <div class="contact-label">Email</div>
+              <div class="contact-label">Email (optional)</div>
               <div class="contact-value">
                 <a href="mailto:alphalimachauffeur@gmail.com">alphalimachauffeur@gmail.com</a>
               </div>
@@ -694,15 +629,6 @@
   </div>
 
   <script>
-    // ============================================================
-    // GALLERY FUNCTION
-    // ============================================================
-    function changeHeroImage(thumb, src) {
-      document.getElementById('mainHeroImage').src = src;
-      document.querySelectorAll('.gallery-thumbs img').forEach(img => img.classList.remove('active'));
-      thumb.classList.add('active');
-    }
-
     function scrollToSection(id) {
       const el = document.getElementById(id);
       if (el) {
@@ -710,183 +636,14 @@
       }
     }
 
-    // ============================================================
-    // OPENROUTESERVICE - Free Road Distance Calculation for Nigeria
-    // Uses actual road networks, not straight-line distance
-    // ============================================================
-
-    let currentDistance = null;
-    let currentFare = null;
-
-    async function calculateDistance() {
-      const pickup = document.getElementById('pickup').value.trim();
-      const dropoff = document.getElementById('dropoff').value.trim();
-      const fareDisplay = document.getElementById('fareDisplay');
-      const fareAmount = document.getElementById('fareAmount');
-      const fareDetail = document.getElementById('fareDetail');
-
-      if (!pickup || !dropoff) {
-        fareAmount.textContent = '—';
-        fareDetail.textContent = 'Enter pickup and dropoff to calculate';
-        fareDisplay.style.background = 'linear-gradient(135deg, #0d4f49, #0f766e)';
-        currentDistance = null;
-        currentFare = null;
-        return;
-      }
-
-      fareAmount.textContent = '⏳ Calculating...';
-      fareAmount.className = 'fare-amount loading';
-      fareDetail.textContent = 'Fetching road distance from OpenRouteService...';
-
-      try {
-        // Step 1: Get coordinates using OpenStreetMap (free)
-        const pickupCoords = await getCoordinatesOSM(pickup);
-        const dropoffCoords = await getCoordinatesOSM(dropoff);
-
-        if (!pickupCoords || !dropoffCoords) {
-          throw new Error('Could not find one or both locations. Please be more specific (e.g., "Wuse, Abuja")');
-        }
-
-        // Step 2: Get road distance using OpenRouteService (free, no API key)
-        const roadDistance = await getRoadDistanceORS(pickupCoords, dropoffCoords);
-
-        if (!roadDistance || roadDistance === 0) {
-          throw new Error('Could not calculate road distance. Try using more specific locations.');
-        }
-
-        // Step 3: Get rate per km (hidden from riders)
-        const ratePerKm = parseFloat(document.getElementById('ratePerKm').value) || 350;
-
-        // Step 4: Calculate fare
-        const fare = roadDistance * ratePerKm;
-
-        // Store for later use
-        currentDistance = roadDistance;
-        currentFare = fare;
-
-        // Step 5: Update display
-        fareAmount.className = 'fare-amount';
-        fareAmount.textContent = `₦${Math.round(fare).toLocaleString()}`;
-
-        let detailText = `${roadDistance.toFixed(1)} km (road distance) × ₦${ratePerKm}/km`;
-        if (roadDistance < 1) {
-          detailText = `Less than 1 km (${roadDistance.toFixed(1)} km) × ₦${ratePerKm}/km`;
-        }
-        fareDetail.textContent = detailText;
-
-        // Color based on fare
-        if (fare > 15000) {
-          fareDisplay.style.background = 'linear-gradient(135deg, #7c2d12, #991b1b)';
-        } else if (fare > 5000) {
-          fareDisplay.style.background = 'linear-gradient(135deg, #0d4f49, #0f766e)';
-        } else {
-          fareDisplay.style.background = 'linear-gradient(135deg, #065f46, #0d9488)';
-        }
-
-      } catch (error) {
-        console.error('Error calculating distance:', error);
-        fareAmount.className = 'fare-amount';
-        fareAmount.textContent = '⚠️ Error';
-        fareDetail.textContent = error.message || 'Please check location names or try again';
-        fareDisplay.style.background = 'linear-gradient(135deg, #7c2d12, #991b1b)';
-        currentDistance = null;
-        currentFare = null;
-      }
+    function changeHeroImage(thumb, src) {
+      // Update main image
+      document.getElementById('mainHeroImage').src = src;
+      // Update active class on thumbs
+      document.querySelectorAll('.gallery-thumbs img').forEach(img => img.classList.remove('active'));
+      thumb.classList.add('active');
     }
 
-    // ----- OpenStreetMap Geocoding (Free, no API key) -----
-    async function getCoordinatesOSM(location) {
-      const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(location)}&limit=1&countrycodes=ng`;
-
-      try {
-        const response = await fetch(url, {
-          headers: { 
-            'User-Agent': 'Alphalima Chauffeur Booking App',
-            'Accept': 'application/json'
-          }
-        });
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
-
-        if (!data || data.length === 0) {
-          return null;
-        }
-
-        return {
-          lat: parseFloat(data[0].lat),
-          lon: parseFloat(data[0].lon)
-        };
-      } catch (error) {
-        console.error('Geocoding error:', error);
-        return null;
-      }
-    }
-
-    // ----- OpenRouteService Road Distance (Free, demo API key) -----
-    async function getRoadDistanceORS(origin, destination) {
-      // OpenRouteService demo key (publicly available for testing)
-      // Rate limit: ~10,000 requests per day
-      const API_KEY = '5b3ce3597851110001cf6248e68e993f69b54360906e80dcec21f1f9';
-
-      const url = `https://api.openrouteservice.org/v2/directions/driving-car?api_key=${API_KEY}&start=${origin.lon},${origin.lat}&end=${destination.lon},${destination.lat}`;
-
-      try {
-        const response = await fetch(url);
-
-        if (!response.ok) {
-          throw new Error(`API error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
-
-        if (!data.features || data.features.length === 0) {
-          throw new Error('No route found');
-        }
-
-        // Distance is in meters, convert to kilometers
-        const distance = data.features[0].properties.segments[0].distance;
-        return distance / 1000;
-
-      } catch (error) {
-        console.error('OpenRouteService error:', error);
-        throw new Error('Could not calculate road distance. Please try again.');
-      }
-    }
-
-    // ----- AUTO-CALCULATE ON INPUT (with debounce) -----
-    document.addEventListener('DOMContentLoaded', function() {
-      const pickup = document.getElementById('pickup');
-      const dropoff = document.getElementById('dropoff');
-      const rateInput = document.getElementById('ratePerKm');
-      let timeoutId;
-
-      function handleInput() {
-        clearTimeout(timeoutId);
-        timeoutId = setTimeout(calculateDistance, 800);
-      }
-
-      pickup.addEventListener('input', handleInput);
-      dropoff.addEventListener('input', handleInput);
-
-      // Recalculate when rate changes (only you can see this)
-      rateInput.addEventListener('input', function() {
-        if (currentDistance !== null) {
-          const rate = parseFloat(this.value) || 350;
-          const fare = currentDistance * rate;
-          currentFare = fare;
-          const fareAmount = document.getElementById('fareAmount');
-          fareAmount.textContent = `₦${Math.round(fare).toLocaleString()}`;
-          const fareDetail = document.getElementById('fareDetail');
-          fareDetail.textContent = `${currentDistance.toFixed(1)} km (road distance) × ₦${rate}/km`;
-        }
-      });
-    });
-
-    // ----- BOOKING FORM HANDLER -----
     function handleBooking(event) {
       event.preventDefault();
 
@@ -898,27 +655,17 @@
       const service = document.getElementById("service").value;
       const notes = document.getElementById("notes").value.trim();
 
-      const fareAmount = document.getElementById('fareAmount').textContent;
-      const fareDetail = document.getElementById('fareDetail').textContent;
-
       const baseUrl = "https://wa.me/+2348155765723";
-
-      let message =
-        "🚗 *Alphalima Executive Chauffeur - Ride Booking Request*%0A%0A" +
-        "👤 *Name:* " + name + "%0A" +
-        "📱 *Phone:* " + phone + "%0A" +
-        "📍 *Pickup:* " + pickup + "%0A" +
-        "📍 *Dropoff:* " + dropoff + "%0A" +
-        "📅 *Date/Time:* " + datetime + "%0A" +
-        "🛠 *Service:* " + service + "%0A" +
-        "💰 *Estimated Fare:* " + fareAmount + "%0A" +
-        "📏 *Distance:* " + fareDetail + "%0A";
-
-      if (notes) {
-        message += "📝 *Extra details:* " + notes + "%0A";
-      }
-
-      message += "%0AThank you! Please confirm availability.";
+      const message =
+        "Ride booking request:%0A%0A" +
+        "Name: " + name + "%0A" +
+        "Phone: " + phone + "%0A" +
+        "Service: " + service + "%0A" +
+        "Pickup: " + pickup + "%0A" +
+        "Dropoff: " + dropoff + "%0A" +
+        "Preferred date & time: " + datetime + "%0A" +
+        (notes ? "Extra details: " + notes + "%0A" : "") +
+        "%0AThank you.";
 
       const url = baseUrl + "?text=" + message;
       window.location.href = url;
