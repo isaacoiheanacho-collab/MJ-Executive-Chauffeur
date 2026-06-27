@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Private Ride Booking – Alphalima Executive Chauffeur</title>
+  <title>Alphalima Executive Chauffeur – Private Ride Booking</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Book a safe, reliable private ride directly with Alphalima Executive Chauffeur. Airport runs, corporate rides, school runs, and more." />
+  <meta name="description" content="Book a safe, reliable private ride with Alphalima Executive Chauffeur. Airport runs, corporate rides, school runs, and more in Abuja & Lagos." />
   <style>
     :root {
       --primary: #0f766e;
@@ -14,6 +14,7 @@
       --text: #111827;
       --muted: #6b7280;
       --card: #ffffff;
+      --gold: #d4af37;
     }
 
     * {
@@ -62,6 +63,10 @@
       color: var(--primary-dark);
     }
 
+    .brand-title span {
+      color: var(--gold);
+    }
+
     .brand-sub {
       font-size: 0.95rem;
       color: var(--muted);
@@ -83,7 +88,6 @@
       font-size: 1rem;
     }
 
-    /* ----- HERO WITH IMAGE ----- */
     .hero {
       background: var(--card);
       border-radius: 0.75rem;
@@ -171,7 +175,6 @@
       }
     }
 
-    /* Gallery thumbs */
     .gallery-thumbs {
       display: flex;
       gap: 0.5rem;
@@ -234,13 +237,13 @@
       background: #e5e7eb;
     }
 
-    .btn-accent {
-      background: var(--accent);
-      color: #ffffff;
+    .btn-gold {
+      background: var(--gold);
+      color: #0a0a0a;
     }
 
-    .btn-accent:hover {
-      background: #ea580c;
+    .btn-gold:hover {
+      background: #c9a82e;
     }
 
     .hero-note {
@@ -381,34 +384,47 @@
 
     .contact-grid {
       display: grid;
-      grid-template-columns: 1fr;
-      gap: 0.5rem;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
       margin-top: 0.5rem;
     }
 
-    @media (min-width: 480px) {
+    @media (max-width: 480px) {
       .contact-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns: 1fr;
       }
     }
 
     .contact-item {
       font-size: 0.85rem;
       color: #374151;
+      padding: 0.5rem;
+      background: var(--bg);
+      border-radius: 0.5rem;
     }
 
     .contact-label {
       font-weight: 600;
       color: var(--primary-dark);
+      display: block;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 0.15rem;
     }
 
     .contact-value a {
       color: var(--primary);
       text-decoration: none;
+      font-weight: 500;
     }
 
     .contact-value a:hover {
       text-decoration: underline;
+    }
+
+    .contact-value {
+      word-break: break-all;
     }
 
     footer {
@@ -428,7 +444,7 @@
   <div class="page">
     <header>
       <div class="brand">
-        <div class="brand-title">Alphalima Executive Chauffeur</div>
+        <div class="brand-title">Alphalima <span>Executive</span> Chauffeur</div>
         <div class="brand-sub">Professional private driver • Direct booking • Abuja & Lagos</div>
         <div class="badge">
           <span>🚗</span>
@@ -468,12 +484,10 @@
             After you submit the form, Alphalima Executive Chauffeur will confirm your trip via WhatsApp or phone call.
           </div>
         </div>
-        <!-- Hero Image -->
         <div class="hero-image">
           <img id="mainHeroImage" src="image/aphalima4.jpeg" alt="Alphalima Executive Chauffeur" />
         </div>
       </div>
-      <!-- Gallery Thumbnails -->
       <div class="gallery-thumbs">
         <img src="image/aphalima0.jpeg" alt="Alphalima 0" onclick="changeHeroImage(this, 'image/aphalima0.jpeg')" />
         <img src="image/aphalima.jpeg" alt="Alphalima 1" onclick="changeHeroImage(this, 'image/aphalima.jpeg')" />
@@ -486,12 +500,22 @@
     <main>
       <!-- Booking form -->
       <section id="booking" class="card">
-        <div class="card-title">Ride booking form</div>
+        <div class="card-title">📋 Ride Booking Form</div>
         <div class="card-subtitle">
           Fill in your trip details and Alphalima Executive Chauffeur will contact you to confirm price and pickup time.
         </div>
 
         <form onsubmit="handleBooking(event)">
+          <div class="field">
+            <label for="pickup">📍 Pickup location</label>
+            <input id="pickup" name="pickup" type="text" required placeholder="e.g. Wuse II, Abuja" />
+          </div>
+
+          <div class="field">
+            <label for="dropoff">📍 Dropoff location</label>
+            <input id="dropoff" name="dropoff" type="text" required placeholder="e.g. Nnamdi Azikiwe International Airport" />
+          </div>
+
           <div class="field">
             <label for="name">Full name</label>
             <input id="name" name="name" type="text" required placeholder="e.g. John Doe" />
@@ -501,16 +525,6 @@
             <label for="phone">WhatsApp / phone number</label>
             <input id="phone" name="phone" type="tel" required placeholder="e.g. +234 813 019 0920" />
             <small>Used only to confirm your booking. No spam.</small>
-          </div>
-
-          <div class="field">
-            <label for="pickup">Pickup location</label>
-            <input id="pickup" name="pickup" type="text" required placeholder="e.g. Wuse II, Abuja" />
-          </div>
-
-          <div class="field">
-            <label for="dropoff">Dropoff location</label>
-            <input id="dropoff" name="dropoff" type="text" required placeholder="e.g. Nnamdi Azikiwe International Airport" />
           </div>
 
           <div class="field">
@@ -538,7 +552,7 @@
           </div>
 
           <div class="form-footer">
-            <button type="submit" class="btn btn-accent">
+            <button type="submit" class="btn btn-gold">
               🚀 Submit booking request
             </button>
             <div class="form-note">
@@ -550,7 +564,7 @@
 
       <!-- Info / services / contact -->
       <section class="card">
-        <div class="card-title">About Alphalima Executive Chauffeur & services offered</div>
+        <div class="card-title">About Alphalima Executive Chauffeur</div>
         <div class="card-subtitle">
           Professional private driver with experience on Uber and Bolt, now offering direct, personalised transport services.
         </div>
@@ -593,25 +607,25 @@
           </p>
           <div class="contact-grid">
             <div class="contact-item">
-              <div class="contact-label">Phone / WhatsApp</div>
+              <span class="contact-label">📱 Phone / WhatsApp</span>
               <div class="contact-value">
                 <a href="https://wa.me/2348155765723">+234 815 576 5723</a>
               </div>
             </div>
             <div class="contact-item">
-              <div class="contact-label">Call</div>
+              <span class="contact-label">📞 Call</span>
               <div class="contact-value">
-                <a href="tel:+2348155765723">Tap to call Alphalima Executive Chauffeur</a>
+                <a href="tel:+2348155765723">Tap to call Alphalima</a>
               </div>
             </div>
             <div class="contact-item">
-              <div class="contact-label">Email (optional)</div>
+              <span class="contact-label">✉️ Email</span>
               <div class="contact-value">
                 <a href="mailto:alphalimachauffeur@gmail.com">alphalimachauffeur@gmail.com</a>
               </div>
             </div>
             <div class="contact-item">
-              <div class="contact-label">Save this page</div>
+              <span class="contact-label">📌 Save this page</span>
               <div class="contact-value">
                 Add to your home screen for quick access.
               </div>
@@ -629,6 +643,13 @@
   </div>
 
   <script>
+    // ----- GALLERY FUNCTION -----
+    function changeHeroImage(thumb, src) {
+      document.getElementById('mainHeroImage').src = src;
+      document.querySelectorAll('.gallery-thumbs img').forEach(img => img.classList.remove('active'));
+      thumb.classList.add('active');
+    }
+
     function scrollToSection(id) {
       const el = document.getElementById(id);
       if (el) {
@@ -636,14 +657,7 @@
       }
     }
 
-    function changeHeroImage(thumb, src) {
-      // Update main image
-      document.getElementById('mainHeroImage').src = src;
-      // Update active class on thumbs
-      document.querySelectorAll('.gallery-thumbs img').forEach(img => img.classList.remove('active'));
-      thumb.classList.add('active');
-    }
-
+    // ----- BOOKING FORM HANDLER -----
     function handleBooking(event) {
       event.preventDefault();
 
@@ -656,16 +670,21 @@
       const notes = document.getElementById("notes").value.trim();
 
       const baseUrl = "https://wa.me/+2348155765723";
-      const message =
-        "Ride booking request:%0A%0A" +
-        "Name: " + name + "%0A" +
-        "Phone: " + phone + "%0A" +
-        "Service: " + service + "%0A" +
-        "Pickup: " + pickup + "%0A" +
-        "Dropoff: " + dropoff + "%0A" +
-        "Preferred date & time: " + datetime + "%0A" +
-        (notes ? "Extra details: " + notes + "%0A" : "") +
-        "%0AThank you.";
+
+      let message =
+        "🚗 *Alphalima Executive Chauffeur - Ride Booking Request*%0A%0A" +
+        "👤 *Name:* " + name + "%0A" +
+        "📱 *Phone:* " + phone + "%0A" +
+        "📍 *Pickup:* " + pickup + "%0A" +
+        "📍 *Dropoff:* " + dropoff + "%0A" +
+        "📅 *Date/Time:* " + datetime + "%0A" +
+        "🛠 *Service:* " + service + "%0A";
+
+      if (notes) {
+        message += "📝 *Extra details:* " + notes + "%0A";
+      }
+
+      message += "%0AThank you! Please confirm availability.";
 
       const url = baseUrl + "?text=" + message;
       window.location.href = url;
