@@ -376,6 +376,11 @@
       50% { opacity: 1; }
     }
 
+    /* ---- HIDDEN RATE CONTROL (for you only) ---- */
+    .hidden-rate-control {
+      display: none; /* Completely hidden from riders */
+    }
+
     .form-footer {
       display: flex;
       flex-direction: column;
@@ -471,34 +476,6 @@
       color: var(--primary-dark);
       font-weight: 600;
     }
-
-    /* Rate per km input */
-    .rate-control {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      flex-wrap: wrap;
-      margin: 0.25rem 0;
-    }
-
-    .rate-control label {
-      font-size: 0.85rem;
-      font-weight: 500;
-      color: #374151;
-    }
-
-    .rate-control input {
-      width: 100px;
-      padding: 0.4rem 0.5rem;
-      border-radius: 0.5rem;
-      border: 1px solid #d1d5db;
-      font-size: 0.9rem;
-    }
-
-    .rate-control .rate-hint {
-      font-size: 0.75rem;
-      color: var(--muted);
-    }
   </style>
 </head>
 <body>
@@ -566,11 +543,11 @@
           Enter your trip details. The system will calculate the distance and show you an estimated fare instantly.
         </div>
 
-        <!-- Rate per km control -->
-        <div class="rate-control">
+        <!-- RATE CONTROL - HIDDEN FROM RIDERS (only you see this) -->
+        <!-- To change the rate, edit the "value" attribute below -->
+        <div class="hidden-rate-control">
           <label for="ratePerKm">Rate per km (₦):</label>
           <input type="number" id="ratePerKm" value="350" min="100" max="1000" step="10" />
-          <span class="rate-hint">Adjust this based on fuel prices and service type</span>
         </div>
 
         <form onsubmit="handleBooking(event)">
@@ -743,7 +720,6 @@
       const fareAmount = document.getElementById('fareAmount');
       const fareDetail = document.getElementById('fareDetail');
 
-      // If either field is empty, reset
       if (!pickup || !dropoff) {
         fareAmount.textContent = '—';
         fareDetail.textContent = 'Enter pickup and dropoff to calculate';
@@ -753,14 +729,11 @@
         return;
       }
 
-      // Show loading state
       fareAmount.textContent = '⏳ Calculating...';
       fareAmount.className = 'fare-amount loading';
       fareDetail.textContent = 'Fetching distance from OpenStreetMap...';
 
       try {
-        // Using OpenStreetMap's Nominatim API (free, no key needed)
-        // First, get coordinates for pickup
         const pickupCoords = await getCoordinates(pickup);
         const dropoffCoords = await getCoordinates(dropoff);
 
@@ -768,34 +741,28 @@
           throw new Error('Could not find one or both locations');
         }
 
-        // Calculate distance using Haversine formula
         const distance = calculateHaversineDistance(
           pickupCoords.lat, pickupCoords.lon,
           dropoffCoords.lat, dropoffCoords.lon
         );
 
-        // Get rate per km
+        // --- RATE IS HARDCODED & HIDDEN ---
+        // To change the rate, edit the "value" attribute in the hidden input above
         const ratePerKm = parseFloat(document.getElementById('ratePerKm').value) || 350;
 
-        // Calculate fare
         const fare = distance * ratePerKm;
-
-        // Store for later use
         currentDistance = distance;
         currentFare = fare;
 
-        // Update display
         fareAmount.className = 'fare-amount';
         fareAmount.textContent = `₦${Math.round(fare).toLocaleString()}`;
 
-        // Show distance detail
         let detailText = `${distance.toFixed(1)} km × ₦${ratePerKm}/km`;
         if (distance < 1) {
           detailText = `Less than 1 km (${distance.toFixed(1)} km) × ₦${ratePerKm}/km`;
         }
         fareDetail.textContent = detailText;
 
-        // Change color based on fare
         if (fare > 15000) {
           fareDisplay.style.background = 'linear-gradient(135deg, #7c2d12, #991b1b)';
         } else if (fare > 5000) {
@@ -815,35 +782,22 @@
       }
     }
 
-    // Get coordinates from location name (free, no API key)
     async function getCoordinates(location) {
       const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(location)}&limit=1`;
-
       const response = await fetch(url, {
-        headers: {
-          'User-Agent': 'Alphalima Chauffeur Booking App'
-        }
+        headers: { 'User-Agent': 'Alphalima Chauffeur Booking App' }
       });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
       const data = await response.json();
-
-      if (!data || data.length === 0) {
-        return null;
-      }
-
+      if (!data || data.length === 0) return null;
       return {
         lat: parseFloat(data[0].lat),
         lon: parseFloat(data[0].lon)
       };
     }
 
-    // Haversine formula to calculate distance between two points (in km)
     function calculateHaversineDistance(lat1, lon1, lat2, lon2) {
-      const R = 6371; // Earth's radius in km
+      const R = 6371;
       const dLat = (lat2 - lat1) * Math.PI / 180;
       const dLon = (lon2 - lon1) * Math.PI / 180;
       const a =
@@ -855,13 +809,9 @@
     }
 
     // ----- AUTO-CALCULATE ON INPUT -----
-    // Add event listeners to pickup and dropoff fields
     document.addEventListener('DOMContentLoaded', function() {
       const pickup = document.getElementById('pickup');
       const dropoff = document.getElementById('dropoff');
-      const rateInput = document.getElementById('ratePerKm');
-
-      // Calculate on input with debounce
       let timeoutId;
 
       function handleInput() {
@@ -871,18 +821,6 @@
 
       pickup.addEventListener('input', handleInput);
       dropoff.addEventListener('input', handleInput);
-      rateInput.addEventListener('input', function() {
-        // Recalculate with new rate if we already have a distance
-        if (currentDistance !== null) {
-          const rate = parseFloat(this.value) || 350;
-          const fare = currentDistance * rate;
-          currentFare = fare;
-          const fareAmount = document.getElementById('fareAmount');
-          fareAmount.textContent = `₦${Math.round(fare).toLocaleString()}`;
-          const fareDetail = document.getElementById('fareDetail');
-          fareDetail.textContent = `${currentDistance.toFixed(1)} km × ₦${rate}/km`;
-        }
-      });
     });
 
     // ----- BOOKING FORM HANDLER -----
@@ -897,7 +835,6 @@
       const service = document.getElementById("service").value;
       const notes = document.getElementById("notes").value.trim();
 
-      // Get fare info
       const fareAmount = document.getElementById('fareAmount').textContent;
       const fareDetail = document.getElementById('fareDetail').textContent;
 
