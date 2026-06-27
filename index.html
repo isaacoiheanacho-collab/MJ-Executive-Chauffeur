@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Private Ride Booking – MJ Executive Chauffeur</title>
+  <title>Private Ride Booking – Alphalima Executive Chauffeur</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Book a safe, reliable private ride directly with MJ Executive Chauffeur. Airport runs, corporate rides, school runs, and more." />
+  <meta name="description" content="Book a safe, reliable private ride directly with Alphalima Executive Chauffeur. Airport runs, corporate rides, school runs, and more." />
   <style>
     :root {
       --primary: #0f766e;
@@ -83,6 +83,7 @@
       font-size: 1rem;
     }
 
+    /* ----- HERO WITH IMAGE ----- */
     .hero {
       background: var(--card);
       border-radius: 0.75rem;
@@ -94,14 +95,14 @@
     .hero-main {
       display: flex;
       flex-direction: column;
-      gap: 0.75rem;
+      gap: 1rem;
     }
 
     @media (min-width: 768px) {
       .hero-main {
         flex-direction: row;
-        justify-content: space-between;
-        align-items: flex-start;
+        align-items: center;
+        gap: 1.5rem;
       }
     }
 
@@ -145,6 +146,55 @@
       display: flex;
       flex-wrap: wrap;
       gap: 0.5rem;
+    }
+
+    .hero-image {
+      flex: 0 0 auto;
+      width: 100%;
+      max-width: 280px;
+      border-radius: 0.75rem;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .hero-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: cover;
+      aspect-ratio: 4/3;
+    }
+
+    @media (max-width: 767px) {
+      .hero-image {
+        max-width: 100%;
+      }
+    }
+
+    /* Gallery thumbs */
+    .gallery-thumbs {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .gallery-thumbs img {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 0.5rem;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+
+    .gallery-thumbs img:hover {
+      border-color: var(--primary);
+    }
+
+    .gallery-thumbs img.active {
+      border-color: var(--primary);
     }
 
     .btn {
@@ -378,7 +428,7 @@
   <div class="page">
     <header>
       <div class="brand">
-        <div class="brand-title">MJ Executive Chauffeur</div>
+        <div class="brand-title">Alphalima Executive Chauffeur</div>
         <div class="brand-sub">Professional private driver • Direct booking • Abuja & Lagos</div>
         <div class="badge">
           <span>🚗</span>
@@ -397,7 +447,7 @@
         <div class="hero-text">
           <div class="hero-title">Safe, reliable rides — booked directly with your driver</div>
           <div class="hero-tagline">
-            Avoid surge pricing and platform fees. Book your ride directly with MJ Executive Chauffeur for transparent, fair pricing and professional service.
+            Avoid surge pricing and platform fees. Book your ride directly with Alphalima Executive Chauffeur for transparent, fair pricing and professional service.
           </div>
           <div class="hero-meta">
             <span class="pill primary">Airport runs</span>
@@ -406,7 +456,7 @@
             <span class="pill">Errand & city trips</span>
           </div>
           <div class="hero-cta">
-            <a href="https://wa.me/+2348155765723?text=Hi%20MJ Executive,%20I%20would%20like%20to%20book%20a%20ride."
+            <a href="https://wa.me/+2348155765723?text=Hi%20Alphalima%20Executive,%20I%20would%20like%20to%20book%20a%20ride."
                class="btn btn-primary">
               💬 Book instantly on WhatsApp
             </a>
@@ -415,9 +465,21 @@
             </button>
           </div>
           <div class="hero-note">
-            After you submit the form, MJ Executive Chauffeur will confirm your trip via WhatsApp or phone call.
+            After you submit the form, Alphalima Executive Chauffeur will confirm your trip via WhatsApp or phone call.
           </div>
         </div>
+        <!-- Hero Image -->
+        <div class="hero-image">
+          <img id="mainHeroImage" src="image/aphalima4.jpeg" alt="Alphalima Executive Chauffeur" />
+        </div>
+      </div>
+      <!-- Gallery Thumbnails -->
+      <div class="gallery-thumbs">
+        <img src="image/aphalima0.jpeg" alt="Alphalima 0" onclick="changeHeroImage(this, 'image/aphalima0.jpeg')" />
+        <img src="image/aphalima.jpeg" alt="Alphalima 1" onclick="changeHeroImage(this, 'image/aphalima.jpeg')" />
+        <img src="image/aphalima1.jpeg" alt="Alphalima 2" onclick="changeHeroImage(this, 'image/aphalima1.jpeg')" />
+        <img src="image/aphalima2.jpeg" alt="Alphalima 3" onclick="changeHeroImage(this, 'image/aphalima2.jpeg')" />
+        <img src="image/aphalima4.jpeg" alt="Alphalima 4" class="active" onclick="changeHeroImage(this, 'image/aphalima4.jpeg')" />
       </div>
     </section>
 
@@ -426,7 +488,7 @@
       <section id="booking" class="card">
         <div class="card-title">Ride booking form</div>
         <div class="card-subtitle">
-          Fill in your trip details and MJ Executive Chauffeur will contact you to confirm price and pickup time.
+          Fill in your trip details and Alphalima Executive Chauffeur will contact you to confirm price and pickup time.
         </div>
 
         <form onsubmit="handleBooking(event)">
@@ -454,7 +516,7 @@
           <div class="field">
             <label for="datetime">Preferred date & time</label>
             <input id="datetime" name="datetime" type="datetime-local" required />
-	    <small>Select your preferred pickup date and time</small>
+            <small>Select your preferred pickup date and time</small>
           </div>
 
           <div class="field">
@@ -480,7 +542,7 @@
               🚀 Submit booking request
             </button>
             <div class="form-note">
-              Your request will open in WhatsApp as a pre‑filled message so MJ Executive Chauffeur can respond quickly.
+              Your request will open in WhatsApp as a pre‑filled message so Alphalima Executive Chauffeur can respond quickly.
             </div>
           </div>
         </form>
@@ -488,7 +550,7 @@
 
       <!-- Info / services / contact -->
       <section class="card">
-        <div class="card-title">About MJ Executive Chauffeur & services offered</div>
+        <div class="card-title">About Alphalima Executive Chauffeur & services offered</div>
         <div class="card-subtitle">
           Professional private driver with experience on Uber and Bolt, now offering direct, personalised transport services.
         </div>
@@ -506,7 +568,7 @@
         </div>
 
         <div class="section">
-          <div class="section-title">Why ride with Jason?</div>
+          <div class="section-title">Why ride with Alphalima?</div>
           <ul class="highlights-list">
             <li>Transparent pricing agreed before the trip</li>
             <li>Well‑maintained vehicle and clean interior</li>
@@ -527,7 +589,7 @@
         <div class="section">
           <div class="section-title">Contact details</div>
           <p class="section-text">
-            You can reach MJ Executive Chauffeur directly using any of the options below. Save this page or scan the QR code from his card.
+            You can reach Alphalima Executive Chauffeur directly using any of the options below. Save this page or scan the QR code from his card.
           </p>
           <div class="contact-grid">
             <div class="contact-item">
@@ -539,13 +601,13 @@
             <div class="contact-item">
               <div class="contact-label">Call</div>
               <div class="contact-value">
-                <a href="tel:+2348155765723">Tap to call MJ Executive Chauffeur</a>
+                <a href="tel:+2348155765723">Tap to call Alphalima Executive Chauffeur</a>
               </div>
             </div>
             <div class="contact-item">
               <div class="contact-label">Email (optional)</div>
               <div class="contact-value">
-                <a href="mailto:mjchauffeur@gmail.com">mjchauffeur@gmail.com</a>
+                <a href="mailto:alphalimachauffeur@gmail.com">alphalimachauffeur@gmail.com</a>
               </div>
             </div>
             <div class="contact-item">
@@ -561,7 +623,7 @@
 
     <footer>
       <div>
-        Direct booking with <span>MJ Executive Chauffeur</span> • Safe, reliable rides in Abuja & Lagos
+        Direct booking with <span>Alphalima Executive Chauffeur</span> • Safe, reliable rides in Abuja & Lagos
       </div>
     </footer>
   </div>
@@ -572,6 +634,14 @@
       if (el) {
         el.scrollIntoView({ behavior: "smooth", block: "start" });
       }
+    }
+
+    function changeHeroImage(thumb, src) {
+      // Update main image
+      document.getElementById('mainHeroImage').src = src;
+      // Update active class on thumbs
+      document.querySelectorAll('.gallery-thumbs img').forEach(img => img.classList.remove('active'));
+      thumb.classList.add('active');
     }
 
     function handleBooking(event) {
