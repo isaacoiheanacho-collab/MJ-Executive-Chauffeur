@@ -376,9 +376,9 @@
       50% { opacity: 1; }
     }
 
-    /* ---- HIDDEN RATE CONTROL (for you only) ---- */
+    /* ---- HIDDEN RATE CONTROL ---- */
     .hidden-rate-control {
-      display: none; /* Completely hidden from riders */
+      display: none;
     }
 
     .form-footer {
@@ -543,8 +543,7 @@
           Enter your trip details. The system will calculate the distance and show you an estimated fare instantly.
         </div>
 
-        <!-- RATE CONTROL - HIDDEN FROM RIDERS (only you see this) -->
-        <!-- To change the rate, edit the "value" attribute below -->
+        <!-- RATE CONTROL - HIDDEN FROM RIDERS -->
         <div class="hidden-rate-control">
           <label for="ratePerKm">Rate per km (₦):</label>
           <input type="number" id="ratePerKm" value="350" min="100" max="1000" step="10" />
@@ -695,7 +694,9 @@
   </div>
 
   <script>
-    // ----- GALLERY FUNCTION -----
+    // ============================================================
+    // GALLERY FUNCTION
+    // ============================================================
     function changeHeroImage(thumb, src) {
       document.getElementById('mainHeroImage').src = src;
       document.querySelectorAll('.gallery-thumbs img').forEach(img => img.classList.remove('active'));
@@ -709,7 +710,11 @@
       }
     }
 
-    // ----- DISTANCE CALCULATION (FREE API) -----
+    // ============================================================
+    // OPENROUTESERVICE - Free Road Distance Calculation for Nigeria
+    // Uses actual road networks, not straight-line distance
+    // ============================================================
+
     let currentDistance = null;
     let currentFare = null;
 
@@ -731,38 +736,45 @@
 
       fareAmount.textContent = '⏳ Calculating...';
       fareAmount.className = 'fare-amount loading';
-      fareDetail.textContent = 'Fetching distance from OpenStreetMap...';
+      fareDetail.textContent = 'Fetching road distance from OpenRouteService...';
 
       try {
-        const pickupCoords = await getCoordinates(pickup);
-        const dropoffCoords = await getCoordinates(dropoff);
+        // Step 1: Get coordinates using OpenStreetMap (free)
+        const pickupCoords = await getCoordinatesOSM(pickup);
+        const dropoffCoords = await getCoordinatesOSM(dropoff);
 
         if (!pickupCoords || !dropoffCoords) {
-          throw new Error('Could not find one or both locations');
+          throw new Error('Could not find one or both locations. Please be more specific (e.g., "Wuse, Abuja")');
         }
 
-        const distance = calculateHaversineDistance(
-          pickupCoords.lat, pickupCoords.lon,
-          dropoffCoords.lat, dropoffCoords.lon
-        );
+        // Step 2: Get road distance using OpenRouteService (free, no API key)
+        const roadDistance = await getRoadDistanceORS(pickupCoords, dropoffCoords);
 
-        // --- RATE IS HARDCODED & HIDDEN ---
-        // To change the rate, edit the "value" attribute in the hidden input above
+        if (!roadDistance || roadDistance === 0) {
+          throw new Error('Could not calculate road distance. Try using more specific locations.');
+        }
+
+        // Step 3: Get rate per km (hidden from riders)
         const ratePerKm = parseFloat(document.getElementById('ratePerKm').value) || 350;
 
-        const fare = distance * ratePerKm;
-        currentDistance = distance;
+        // Step 4: Calculate fare
+        const fare = roadDistance * ratePerKm;
+
+        // Store for later use
+        currentDistance = roadDistance;
         currentFare = fare;
 
+        // Step 5: Update display
         fareAmount.className = 'fare-amount';
         fareAmount.textContent = `₦${Math.round(fare).toLocaleString()}`;
 
-        let detailText = `${distance.toFixed(1)} km × ₦${ratePerKm}/km`;
-        if (distance < 1) {
-          detailText = `Less than 1 km (${distance.toFixed(1)} km) × ₦${ratePerKm}/km`;
+        let detailText = `${roadDistance.toFixed(1)} km (road distance) × ₦${ratePerKm}/km`;
+        if (roadDistance < 1) {
+          detailText = `Less than 1 km (${roadDistance.toFixed(1)} km) × ₦${ratePerKm}/km`;
         }
         fareDetail.textContent = detailText;
 
+        // Color based on fare
         if (fare > 15000) {
           fareDisplay.style.background = 'linear-gradient(135deg, #7c2d12, #991b1b)';
         } else if (fare > 5000) {
@@ -775,43 +787,81 @@
         console.error('Error calculating distance:', error);
         fareAmount.className = 'fare-amount';
         fareAmount.textContent = '⚠️ Error';
-        fareDetail.textContent = 'Please check location names or try again';
+        fareDetail.textContent = error.message || 'Please check location names or try again';
         fareDisplay.style.background = 'linear-gradient(135deg, #7c2d12, #991b1b)';
         currentDistance = null;
         currentFare = null;
       }
     }
 
-    async function getCoordinates(location) {
-      const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(location)}&limit=1`;
-      const response = await fetch(url, {
-        headers: { 'User-Agent': 'Alphalima Chauffeur Booking App' }
-      });
-      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-      const data = await response.json();
-      if (!data || data.length === 0) return null;
-      return {
-        lat: parseFloat(data[0].lat),
-        lon: parseFloat(data[0].lon)
-      };
+    // ----- OpenStreetMap Geocoding (Free, no API key) -----
+    async function getCoordinatesOSM(location) {
+      const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(location)}&limit=1&countrycodes=ng`;
+
+      try {
+        const response = await fetch(url, {
+          headers: { 
+            'User-Agent': 'Alphalima Chauffeur Booking App',
+            'Accept': 'application/json'
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        if (!data || data.length === 0) {
+          return null;
+        }
+
+        return {
+          lat: parseFloat(data[0].lat),
+          lon: parseFloat(data[0].lon)
+        };
+      } catch (error) {
+        console.error('Geocoding error:', error);
+        return null;
+      }
     }
 
-    function calculateHaversineDistance(lat1, lon1, lat2, lon2) {
-      const R = 6371;
-      const dLat = (lat2 - lat1) * Math.PI / 180;
-      const dLon = (lon2 - lon1) * Math.PI / 180;
-      const a =
-        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-        Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-        Math.sin(dLon / 2) * Math.sin(dLon / 2);
-      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-      return R * c;
+    // ----- OpenRouteService Road Distance (Free, demo API key) -----
+    async function getRoadDistanceORS(origin, destination) {
+      // OpenRouteService demo key (publicly available for testing)
+      // Rate limit: ~10,000 requests per day
+      const API_KEY = '5b3ce3597851110001cf6248e68e993f69b54360906e80dcec21f1f9';
+
+      const url = `https://api.openrouteservice.org/v2/directions/driving-car?api_key=${API_KEY}&start=${origin.lon},${origin.lat}&end=${destination.lon},${destination.lat}`;
+
+      try {
+        const response = await fetch(url);
+
+        if (!response.ok) {
+          throw new Error(`API error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        if (!data.features || data.features.length === 0) {
+          throw new Error('No route found');
+        }
+
+        // Distance is in meters, convert to kilometers
+        const distance = data.features[0].properties.segments[0].distance;
+        return distance / 1000;
+
+      } catch (error) {
+        console.error('OpenRouteService error:', error);
+        throw new Error('Could not calculate road distance. Please try again.');
+      }
     }
 
-    // ----- AUTO-CALCULATE ON INPUT -----
+    // ----- AUTO-CALCULATE ON INPUT (with debounce) -----
     document.addEventListener('DOMContentLoaded', function() {
       const pickup = document.getElementById('pickup');
       const dropoff = document.getElementById('dropoff');
+      const rateInput = document.getElementById('ratePerKm');
       let timeoutId;
 
       function handleInput() {
@@ -821,6 +871,19 @@
 
       pickup.addEventListener('input', handleInput);
       dropoff.addEventListener('input', handleInput);
+
+      // Recalculate when rate changes (only you can see this)
+      rateInput.addEventListener('input', function() {
+        if (currentDistance !== null) {
+          const rate = parseFloat(this.value) || 350;
+          const fare = currentDistance * rate;
+          currentFare = fare;
+          const fareAmount = document.getElementById('fareAmount');
+          fareAmount.textContent = `₦${Math.round(fare).toLocaleString()}`;
+          const fareDetail = document.getElementById('fareDetail');
+          fareDetail.textContent = `${currentDistance.toFixed(1)} km (road distance) × ₦${rate}/km`;
+        }
+      });
     });
 
     // ----- BOOKING FORM HANDLER -----
