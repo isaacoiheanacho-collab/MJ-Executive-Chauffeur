@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Private Ride Booking – MJ Executive Chauffeur</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Book a safe, reliable private ride directly with MJ Executive Chauffeur. Airport runs, corporate rides, school runs, and more." />
+  <style>
+    :root {
+      --primary: #0f766e;
+      --primary-dark: #0d4f49;
+      --accent: #f97316;
+      --bg: #f4f4f5;
+      --text: #111827;
+      --muted: #6b7280;
+      --card: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    .page {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 1.5rem 1rem 3rem;
+    }
+
+    header {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    @media (min-width: 768px) {
+      header {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .brand-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+    }
+
+    .brand-sub {
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: #e0f2f1;
+      color: var(--primary-dark);
+      padding: 0.35rem 0.7rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .badge span {
+      font-size: 1rem;
+    }
+
+    .hero {
+      background: var(--card);
+      border-radius: 0.75rem;
+      padding: 1.25rem 1rem;
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-main {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    @media (min-width: 768px) {
+      .hero-main {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+      }
+    }
+
+    .hero-text {
+      flex: 1;
+    }
+
+    .hero-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 0.35rem;
+    }
+
+    .hero-tagline {
+      font-size: 0.95rem;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+    }
+
+    .pill {
+      padding: 0.25rem 0.6rem;
+      border-radius: 999px;
+      background: #e5e7eb;
+      color: #374151;
+    }
+
+    .pill.primary {
+      background: #ecfdf5;
+      color: #166534;
+    }
+
+    .hero-cta {
+      margin-top: 0.75rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+      padding: 0.6rem 1rem;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform 0.08s ease, box-shadow 0.08s ease, background 0.12s ease;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #ffffff;
+      box-shadow: 0 8px 18px rgba(15, 118, 110, 0.35);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 10px 22px rgba(15, 118, 110, 0.45);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--primary-dark);
+      border: 1px solid #d1d5db;
+    }
+
+    .btn-outline:hover {
+      background: #e5e7eb;
+    }
+
+    .btn-accent {
+      background: var(--accent);
+      color: #ffffff;
+    }
+
+    .btn-accent:hover {
+      background: #ea580c;
+    }
+
+    .hero-note {
+      margin-top: 0.75rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    main {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+
+    @media (min-width: 900px) {
+      main {
+        grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.9fr);
+      }
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: 0.75rem;
+      padding: 1.1rem 1rem;
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
+    }
+
+    .card-title {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      color: var(--primary-dark);
+    }
+
+    .card-subtitle {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .field label {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #374151;
+    }
+
+    .field input,
+    .field textarea,
+    .field select {
+      padding: 0.55rem 0.6rem;
+      border-radius: 0.5rem;
+      border: 1px solid #d1d5db;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.12s ease, box-shadow 0.12s ease;
+    }
+
+    .field input:focus,
+    .field textarea:focus,
+    .field select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 1px rgba(15, 118, 110, 0.25);
+    }
+
+    .field small {
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    textarea {
+      min-height: 70px;
+      resize: vertical;
+    }
+
+    .form-footer {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .form-note {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .services-list,
+    .locations-list,
+    .highlights-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      font-size: 0.9rem;
+    }
+
+    .services-list li::before,
+    .locations-list li::before {
+      content: "•";
+      margin-right: 0.35rem;
+      color: var(--primary);
+    }
+
+    .highlights-list li::before {
+      content: "✓";
+      margin-right: 0.35rem;
+      color: #16a34a;
+    }
+
+    .section {
+      margin-top: 1rem;
+    }
+
+    .section-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+      color: #111827;
+    }
+
+    .section-text {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 0.4rem;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    @media (min-width: 480px) {
+      .contact-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    .contact-item {
+      font-size: 0.85rem;
+      color: #374151;
+    }
+
+    .contact-label {
+      font-weight: 600;
+      color: var(--primary-dark);
+    }
+
+    .contact-value a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .contact-value a:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      margin-top: 2rem;
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    footer span {
+      color: var(--primary-dark);
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="brand">
+        <div class="brand-title">MJ Executive Chauffeur</div>
+        <div class="brand-sub">Professional private driver • Direct booking • Abuja & Lagos</div>
+        <div class="badge">
+          <span>🚗</span>
+          <span>Former Uber & Bolt driver • Verified & experienced</span>
+        </div>
+      </div>
+      <div>
+        <button class="btn btn-outline" onclick="scrollToSection('booking')">
+          Book a ride now
+        </button>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="hero-main">
+        <div class="hero-text">
+          <div class="hero-title">Safe, reliable rides — booked directly with your driver</div>
+          <div class="hero-tagline">
+            Avoid surge pricing and platform fees. Book your ride directly with MJ Executive Chauffeur for transparent, fair pricing and professional service.
+          </div>
+          <div class="hero-meta">
+            <span class="pill primary">Airport runs</span>
+            <span class="pill">Corporate rides</span>
+            <span class="pill">School runs</span>
+            <span class="pill">Errand & city trips</span>
+          </div>
+          <div class="hero-cta">
+            <a href="https://wa.me/+2348130190929?text=Hi%20MJ Executive,%20I%20would%20like%20to%20book%20a%20ride."
+               class="btn btn-primary">
+              💬 Book instantly on WhatsApp
+            </a>
+            <button class="btn btn-outline" onclick="scrollToSection('booking')">
+              📋 Use booking form
+            </button>
+          </div>
+          <div class="hero-note">
+            After you submit the form, MJ Executive Chauffeur will confirm your trip via WhatsApp or phone call.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <main>
+      <!-- Booking form -->
+      <section id="booking" class="card">
+        <div class="card-title">Ride booking form</div>
+        <div class="card-subtitle">
+          Fill in your trip details and MJ Executive Chauffeur will contact you to confirm price and pickup time.
+        </div>
+
+        <form onsubmit="handleBooking(event)">
+          <div class="field">
+            <label for="name">Full name</label>
+            <input id="name" name="name" type="text" required placeholder="e.g. John Doe" />
+          </div>
+
+          <div class="field">
+            <label for="phone">WhatsApp / phone number</label>
+            <input id="phone" name="phone" type="tel" required placeholder="e.g. +234 813 019 0920" />
+            <small>Used only to confirm your booking. No spam.</small>
+          </div>
+
+          <div class="field">
+            <label for="pickup">Pickup location</label>
+            <input id="pickup" name="pickup" type="text" required placeholder="e.g. Wuse II, Abuja" />
+          </div>
+
+          <div class="field">
+            <label for="dropoff">Dropoff location</label>
+            <input id="dropoff" name="dropoff" type="text" required placeholder="e.g. Nnamdi Azikiwe International Airport" />
+          </div>
+
+          <div class="field">
+            <label for="datetime">Preferred date & time</label>
+            <input id="datetime" name="datetime" type="datetime-local" required />
+	    <small>Select your preferred pickup date and time</small>
+          </div>
+
+          <div class="field">
+            <label for="service">Type of service</label>
+            <select id="service" name="service" required>
+              <option value="">Select service</option>
+              <option>Airport pickup / dropoff</option>
+              <option>Corporate ride</option>
+              <option>Daily commute</option>
+              <option>School run</option>
+              <option>Errand / city trip</option>
+              <option>Interstate travel</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="notes">Extra details (optional)</label>
+            <textarea id="notes" name="notes" placeholder="e.g. Number of passengers, luggage, special requests"></textarea>
+          </div>
+
+          <div class="form-footer">
+            <button type="submit" class="btn btn-accent">
+              🚀 Submit booking request
+            </button>
+            <div class="form-note">
+              Your request will open in WhatsApp as a pre‑filled message so Jason can respond quickly.
+            </div>
+          </div>
+        </form>
+      </section>
+
+      <!-- Info / services / contact -->
+      <section class="card">
+        <div class="card-title">About MJ Executive Chauffeur & services offered</div>
+        <div class="card-subtitle">
+          Professional private driver with experience on Uber and Bolt, now offering direct, personalised transport services.
+        </div>
+
+        <div class="section">
+          <div class="section-title">Services</div>
+          <ul class="services-list">
+            <li>Airport pickup and dropoff (Abuja & Lagos)</li>
+            <li>Corporate and business rides</li>
+            <li>Daily commute and regular routes</li>
+            <li>School runs for children</li>
+            <li>Errand and city trips</li>
+            <li>Interstate travel (on agreement)</li>
+          </ul>
+        </div>
+
+        <div class="section">
+          <div class="section-title">Why ride with Jason?</div>
+          <ul class="highlights-list">
+            <li>Transparent pricing agreed before the trip</li>
+            <li>Well‑maintained vehicle and clean interior</li>
+            <li>Professional, respectful and punctual</li>
+            <li>Flexible payment options (cash, transfer)</li>
+            <li>Direct communication — no platform delays</li>
+          </ul>
+        </div>
+
+        <div class="section">
+          <div class="section-title">Areas covered</div>
+          <ul class="locations-list">
+            <li>Abuja city and surrounding areas</li>
+            <li>Lagos (selected routes, on agreement)</li>
+          </ul>
+        </div>
+
+        <div class="section">
+          <div class="section-title">Contact details</div>
+          <p class="section-text">
+            You can reach MJ Executive Chauffeur directly using any of the options below. Save this page or scan the QR code from his card.
+          </p>
+          <div class="contact-grid">
+            <div class="contact-item">
+              <div class="contact-label">Phone / WhatsApp</div>
+              <div class="contact-value">
+                <a href="https://wa.me/2348130190929">+234 813 019 0929</a>
+              </div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-label">Call</div>
+              <div class="contact-value">
+                <a href="tel:+2348130190929">Tap to call Jason</a>
+              </div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-label">Email (optional)</div>
+              <div class="contact-value">
+                <a href="mailto:mjchauffeur@gmail.com">mjchauffeur@example.com</a>
+              </div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-label">Save this page</div>
+              <div class="contact-value">
+                Add to your home screen for quick access.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div>
+        Direct booking with <span>MJ Executive Chauffeur</span> • Safe, reliable rides in Abuja & Lagos
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    function scrollToSection(id) {
+      const el = document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }
+
+    function handleBooking(event) {
+      event.preventDefault();
+
+      const name = document.getElementById("name").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      const pickup = document.getElementById("pickup").value.trim();
+      const dropoff = document.getElementById("dropoff").value.trim();
+      const datetime = document.getElementById("datetime").value.trim();
+      const service = document.getElementById("service").value;
+      const notes = document.getElementById("notes").value.trim();
+
+      const baseUrl = "https://wa.me/+2348130190929";
+      const message =
+        "Ride booking request:%0A%0A" +
+        "Name: " + name + "%0A" +
+        "Phone: " + phone + "%0A" +
+        "Service: " + service + "%0A" +
+        "Pickup: " + pickup + "%0A" +
+        "Dropoff: " + dropoff + "%0A" +
+        "Preferred date & time: " + datetime + "%0A" +
+        (notes ? "Extra details: " + notes + "%0A" : "") +
+        "%0AThank you.";
+
+      const url = baseUrl + "?text=" + message;
+      window.location.href = url;
+    }
+  </script>
+</body>
+</html>
